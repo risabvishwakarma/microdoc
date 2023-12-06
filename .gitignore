@@ -1,0 +1,49 @@
+# Ignore build and IDE-specific files
+target/
+out/
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+.metadata/
+.mvn/
+
+
+# Ignore Spring Boot specific files
+application.properties
+application.yml
+application-dev.properties
+application-dev.yml
+application-prod.properties
+application-prod.yml
+application-local.properties
+application-local.yml
+
+# Ignore logs
+logs/
+
+# Ignore OS and text editor generated files
+.DS_Store
+Thumbs.db
+*.swp
+*.swm
+*~
+
+# Ignore Maven wrapper jar
+mvnw
+mvnw.cmd
+
+# Ignore Gradle wrapper files
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+
+# Ignore Eclipse-specific files
+.settings/
+.classpath
+.project
+
+# Ignore Spring Boot logs
+log/
+log.txt
