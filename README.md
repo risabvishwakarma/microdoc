@@ -32,7 +32,7 @@ To run **Microdoc**, you need to have Java and Spring Boot installed. Follow the
 1. Clone the repository:
 
    ```bash
-   git clone https://softevia@dev.azure.com/softevia/Microdoc/_git/Microdoc
+   git clone https://dev.azure.com/1910130/microdoc/_git/microdoc
    cd Microdoc
    ./mvnw spring-boot:run
 
