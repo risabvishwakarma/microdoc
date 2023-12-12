@@ -10,6 +10,10 @@ import java.io.InputStream;
 
 public interface ParserModel {
     public DocumentObject parseFile(InputStream inputStream) throws TikaException, IOException, SAXException, ParserConfigurationException;
+
     public DocumentObject parseFileHTML(InputStream inputStream) throws TikaException, IOException, SAXException, ParserConfigurationException;
 
+    DocumentObject parseFileFeatures(InputStream inputStream) throws TikaException, IOException, SAXException, ParserConfigurationException;
+
+    ;
 }

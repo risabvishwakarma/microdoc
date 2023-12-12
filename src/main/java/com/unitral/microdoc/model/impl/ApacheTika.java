@@ -2,9 +2,13 @@
 package com.unitral.microdoc.model.impl;
 
 import com.azure.ai.translation.text.TextTranslationClient;
+import com.azure.ai.translation.text.TextTranslationClientBuilder;
 import com.azure.core.credential.AzureKeyCredential;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unitral.microdoc.dto.DocumentObject;
+import com.unitral.microdoc.enums.FileFormat;
+import com.unitral.microdoc.enums.HttpStatusMessage;
+import com.unitral.microdoc.exception.NotAppropriateDocType;
 import com.unitral.microdoc.model.ParserModel;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.tika.Tika;
@@ -12,9 +16,6 @@ import org.apache.tika.exception.TikaException;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.language.detect.LanguageDetector;
 import org.apache.tika.language.detect.LanguageResult;
-import com.azure.ai.translation.text.TextTranslationClientBuilder;
-
-
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
 import org.apache.tika.parser.AutoDetectParser;
@@ -30,11 +31,16 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
-
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 
@@ -255,12 +261,25 @@ public class ApacheTika implements ParserModel {
         }
     }
 
+    public static String convertStreamToString(InputStream inputStream) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            // Use Java 8 Streams to read lines and concatenate them into a single String
+            return bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
+    }
 
-    public DocumentObject parseFileFeatures(InputStream inputStream) throws TikaException, IOException, SAXException, ParserConfigurationException {
+    public DocumentObject parseFileFeatures(InputStream inputStream) throws IOException, SAXException, ParserConfigurationException {
+        TikaInputStream tikaInputStream = TikaInputStream.get(inputStream);
+
+        if (!getTypeOfFile(tikaInputStream).equals(FileFormat.WORD_DOCUMENT.getMediaType())) {
+            throw new NotAppropriateDocType(HttpStatusMessage.NOT_APPROPRIATE_DOCUMENT);
+        }
+
         textHandler = new BodyContentHandler(-1);
         metadata = new Metadata();
-        XWPFDocument document = new XWPFDocument(inputStream);
-        return new DocumentObject(metadata.get("Content-Type"),document, metadata);
+        XWPFDocument document = new XWPFDocument(tikaInputStream);
+        AtomicReference<DocumentObject> documentObject = new AtomicReference<>(new DocumentObject(metadata.get("Content-Type"), document.getDocument(), metadata));
+        return documentObject.get();
 
     }
 

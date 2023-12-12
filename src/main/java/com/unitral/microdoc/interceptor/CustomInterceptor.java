@@ -16,6 +16,8 @@ public class CustomInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+
         System.out.println("**********************************");
         System.out.println("Request rid:: "+request.getRequestId());
         System.out.println("Request :: "+request.getRequestURI());  //  /ping

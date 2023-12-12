@@ -2,15 +2,19 @@ package com.unitral.microdoc.controller;
 
 import com.unitral.microdoc.api.ApiResponse;
 import com.unitral.microdoc.dto.DocumentObject;
+import com.unitral.microdoc.entity.UserAuthentication;
 import com.unitral.microdoc.enums.HttpStatusMessage;
 import com.unitral.microdoc.exception.NotParsableDocuments;
+import com.unitral.microdoc.repository.UserAuthenticationRepo;
 import com.unitral.microdoc.service.ParserService;
 import org.apache.tika.exception.TikaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
@@ -23,6 +27,8 @@ public class Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     private final ParserService parserService;
     private final ApiResponse apiResponse;
+
+
 
     Controller(ParserService parserService, ApiResponse apiResponse) {
         this.parserService = parserService;
@@ -43,7 +49,7 @@ public class Controller {
 
     @GetMapping("/type")
     public ResponseEntity<String> getDocumentType() throws NotParsableDocuments {
-        return ResponseEntity.ok(this.sd());
+         return ResponseEntity.ok("okay");
 //        throw new RecordNotFoundException("No such record found");
 //        try {
 //          return ResponseEntity.ok(parserService.getFileType2());
