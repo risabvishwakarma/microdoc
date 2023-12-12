@@ -47,6 +47,11 @@ public class Controller {
         return setApiResponse(data,HttpStatus.OK.value());
     }
 
+    @GetMapping("/")
+    public String callPing() {
+        return this.Ping();
+    }
+
     @GetMapping("/type")
     public ResponseEntity<String> getDocumentType() throws NotParsableDocuments {
          return ResponseEntity.ok("okay");
