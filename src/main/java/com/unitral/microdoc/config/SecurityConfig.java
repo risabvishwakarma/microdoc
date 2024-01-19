@@ -36,25 +36,25 @@ public class SecurityConfig {
         return new CustomUserDetailsService( userAuthRepo);
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider(){
-//        DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setUserDetailsService(getUserDetailsService());
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return daoAuthenticationProvider;
-//    }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider daoAuthenticationProvider= new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(getUserDetailsService());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
+    }
 //
 //
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/*").hasRole("ADMIN")
+//                        .requestMatchers("/*").hasRole("ADMIN")
 //                        .requestMatchers("/type").hasRole("USER")
                         .anyRequest().authenticated()
                 )

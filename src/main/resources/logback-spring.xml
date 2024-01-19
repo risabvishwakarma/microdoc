@@ -35,7 +35,7 @@
         <appender-ref ref="Console" />
     </root>
 
-    <springProfile name="devl">
+    <springProfile name="dev">
         <!-- LOG everything at DEBUG level -->
         <root level="debug">
             <appender-ref ref="RollingFile" />
